@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.title {
+  margin: .5rem;
+  font-size: 2rem;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.memory-game {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.ranking {
+    text-align: center;
+    color: white;
+    background: #333;
+    display: flex;
+    flex-flow: column nowrap;
+    width: 500px;
+    max-height: 900px;
+    padding: 2rem;
+    border-radius: 30px;
+    gap: 2rem;
+}
+
+.ranking-entry-time, .ranking-entry-moves {
+   background: #444;
+   font-weight: 700;
+   font-size: 2rem;
+   padding: 2rem;
+   border-radius: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  width: 90%;
+  max-width: 800px;
+  padding: 1rem;
+}
+
+.card {
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card.hidden {
+    visibility: hidden;
+}   
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-front {
+  background-color: #333;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background-color: white;
+}
+
+.card-content {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+footer {
+    display: flex;
+    gap: 2rem;
+}
+
+.moves, .timer {
+    text-align: center;
+    width: 23rem;
+    padding: 1rem;
+    background: #333;
+    border-radius: 300px;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+}
