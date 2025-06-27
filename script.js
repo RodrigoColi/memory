@@ -1,3 +1,5 @@
+const GRID_SIZE = 6
+
 const grid = document.querySelector('.grid');
 const movesElement = document.querySelector('.moves');
 let cardsTurned = 0;
@@ -5,7 +7,7 @@ let moves = 0;
 let score = 0;
 let cards = [];
 
-const ids = Array.from({ length: 8 }, (_, i) => i + 1); // [1, 2, 3, 4, 5, 6, 7, 8]
+const ids = Array.from({ length: GRID_SIZE }, (_, i) => i + 1); // [1, 2, 3, 4, 5, 6, 7, 8]
 const cardIds = [...ids, ...ids]; // ... spreads out the values of ids ([1, 2, 3] -> 1, 2, 3) // this line yields [0, 1, 2, 0, 1, 2] for an array of length 3
 
 cardIds.sort(() => Math.random() - 0.5); // shuffles
@@ -14,7 +16,9 @@ cardIds.forEach(id => {
     const cardHTML = `
         <div class="card flipped" data-id="${id}">
             <div class="card-inner">
-                <div class="card-front"></div>
+                <div class="card-front">
+                    <img class="faesa-card-image" width="150px" height="auto" src="images/faesa.png">
+                </div>
                 <div class="card-back">
                     <img class="card-content" src="images/image-${id}.png" alt="Image" />
                 </div>
@@ -100,7 +104,7 @@ grid.addEventListener('click', (e) => {
                 });
             } else {
                 score++;
-                if (score == 8) {
+                if (score == GRID_SIZE) {
                     clearInterval(timer);
                     const tempo = formatTime(elapsedSeconds).replace("Tempo: ", ""); 
                     updateRankings(prompt("Digite seu nome: "), moves, tempo);    
