@@ -164,3 +164,11 @@ footer {
     font-size: 2rem;
     font-weight: 700;
 }
+
+.nome-aluno {
+    font-size: 1rem;
+    font-weight: 500;
+    position: absolute;
+    top: 5rem;
+    left: 4.5rem;
+}
