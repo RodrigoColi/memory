@@ -9,10 +9,20 @@ let cards = [];
 
 let timer = null;
 
+let remainingSeconds = 60;
+let elapsedSeconds = 0;
+const timerElement = document.querySelector(".timer");
+timerElement.textContent = formatTime(remainingSeconds);
+
 const ids = Array.from({ length: GRID_SIZE }, (_, i) => i + 1); 
 const cardIds = [...ids, ...ids]; 
 
 cardIds.sort(() => Math.random() - 0.5); 
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderRankings();
+    showStartScreen();
+});
 
 function startGame() {
     grid.innerHTML = '';
@@ -21,7 +31,7 @@ function startGame() {
     cards = [];
     cardsTurned = 0;
     elapsedSeconds = 0;
-    remainingSeconds = 5 * 60;
+    remainingSeconds = 60;
     movesElement.innerHTML = `Movimentos: ${moves}`;
     timerElement.textContent = formatTime(remainingSeconds);
 
@@ -59,6 +69,7 @@ function startGame() {
         if (remainingSeconds <= 0) {
             clearInterval(timer);
             timerElement.textContent = "Tempo: 00:00";
+            showStartScreen(); 
         }
     }, 1000);
 }
@@ -75,7 +86,7 @@ function showStartScreen() {
     cards = [];
     cardsTurned = 0;
     elapsedSeconds = 0;
-    remainingSeconds = 5 * 60;
+    remainingSeconds = 60;
     movesElement.innerHTML = `Movimentos: ${moves}`;
     timerElement.textContent = formatTime(remainingSeconds);
 
@@ -147,11 +158,6 @@ function updateRankings(nome, movimentos, tempo) {
     renderRankings();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    renderRankings();
-    showStartScreen();
-});
-
 grid.addEventListener('click', async (e) => {
     const card = e.target.closest('.card');
     if (!card || cardsTurned == 2 || card.classList.contains('flipped')) return;
@@ -177,7 +183,7 @@ grid.addEventListener('click', async (e) => {
                 const tempo = formatTime(elapsedSeconds).replace("Tempo: ", "");
                 const nome = await getName(); 
                 updateRankings(nome, moves, tempo);
-                setTimeout(showStartScreen, 5000); 
+                showStartScreen(); 
             }
             cards = [];
             cardsTurned = 0;
@@ -185,17 +191,11 @@ grid.addEventListener('click', async (e) => {
     }
 });
 
-let remainingSeconds = 5 * 60;
-let elapsedSeconds = 0;
-const timerElement = document.querySelector(".timer");
-
 function formatTime(totalSeconds) {
     const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
     const seconds = String(totalSeconds % 60).padStart(2, '0');
     return `Tempo: ${minutes}:${seconds}`;
 }
-
-timerElement.textContent = formatTime(remainingSeconds);
 
 function getName() {
     return new Promise((resolve) => {
@@ -233,28 +233,32 @@ function getName() {
         controlsRow.classList.add('keyboard-row');
 
         const backspaceButton = document.createElement('button');
-        backspaceButton.textContent = 'Backspace';
+        backspaceButton.textContent = '←';
         backspaceButton.classList.add('backspace-button');
         backspaceButton.addEventListener('click', () => {
-            nameDisplay.innerText = nameDisplay.innerText.slice(0, -1);
+            nameDisplay.textContent = nameDisplay.innerText.slice(0, -1);
+        });
+
+        const spaceButton = document.createElement('button');
+        spaceButton.textContent = 'Espaço';
+        spaceButton.classList.add('space-button');
+        spaceButton.addEventListener('click', () => {
+            nameDisplay.textContent += ' ';
         });
 
         const confirmButton = document.createElement('button');
-        confirmButton.textContent = 'Confirm';
+        confirmButton.textContent = 'Confirmar';
         confirmButton.classList.add('confirm-button');
         confirmButton.addEventListener('click', () => {
-            const name = nameDisplay.innerText.trim();
+            const name = nameDisplay.textContent.trim();
             if (name.length >= 3) {
-                if (name.length >= 15) {
-                    resolve(name.substring(0, 10));
-                } else {
-                    resolve(name);
-                }
+                resolve(name.length >= 15 ? name.substring(0, 10) : name);
                 document.body.removeChild(keyboardContainer); 
             }
         });
 
         controlsRow.appendChild(backspaceButton);
+        controlsRow.appendChild(spaceButton);
         controlsRow.appendChild(confirmButton);
         keyboard.appendChild(controlsRow);
 
@@ -263,8 +267,9 @@ function getName() {
 
         keyboard.querySelectorAll('.letter').forEach(letter => {
             letter.addEventListener('click', () => {
-                nameDisplay.innerText += letter.textContent;
+                nameDisplay.textContent += letter.textContent;
             });
         });
     });
 }
+

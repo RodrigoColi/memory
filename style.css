@@ -172,7 +172,7 @@ footer {
     font-size: 1rem;
     font-weight: 500;
     position: absolute;
-    top: 5rem;
+    bottom: 1rem;
     left: 4.5rem;
 }
 
@@ -243,7 +243,7 @@ footer {
     transform: scale(1.05);
 }
 
-.backspace-button, .confirm-button {
+.space-button, .backspace-button, .confirm-button {
     margin-top: 1rem;
     padding: 0.5rem 1.5rem;
     font-size: 2rem;
@@ -256,7 +256,7 @@ footer {
     transition: background-color 0.2s ease;
 }
 
-.backspace-button:active, .confirm-button:active {
+.space-button:active, .backspace-button:active, .confirm-button:active {
     background-color: var(--regular-blue);
     color: var(--bright-blue);
     border: 5px solid var(--bright-blue);
