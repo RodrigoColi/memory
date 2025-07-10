@@ -59,19 +59,19 @@ function startGame() {
         document.querySelectorAll('.card').forEach(card => {
             card.classList.remove('flipped');
         });
+
+        timer = setInterval(() => {
+            remainingSeconds--;
+            elapsedSeconds++;
+            timerElement.textContent = formatTime(remainingSeconds);
+
+            if (remainingSeconds <= 0) {
+                clearInterval(timer);
+                timerElement.textContent = "Tempo: 00:00";
+                showStartScreen(); 
+            }
+        }, 1000);
     }, 3000);
-
-    timer = setInterval(() => {
-        remainingSeconds--;
-        elapsedSeconds++;
-        timerElement.textContent = formatTime(remainingSeconds);
-
-        if (remainingSeconds <= 0) {
-            clearInterval(timer);
-            timerElement.textContent = "Tempo: 00:00";
-            showStartScreen(); 
-        }
-    }, 1000);
 }
 
 function showStartScreen() {
